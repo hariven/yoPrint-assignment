@@ -33,6 +33,7 @@ const Index = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [queryParam, setQueryParam] = useSearchParams();
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const navigate = useNavigate();
 
@@ -98,7 +99,7 @@ const Index = () => {
   }, [qParam]);
 
   const handlePageChange = (page: number) => {
-    navigate(`/page/${page}?q=${qParam}`);
+    navigate(`/page/${page}`);
   };
 
   const handleSearchChange = (value: string) => {
@@ -113,6 +114,18 @@ const Index = () => {
       setQueryParam({});
     }
   }, [searchQuery, setQueryParam]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   return (
     <div>
       {loading ? (
@@ -134,8 +147,15 @@ const Index = () => {
               searchQuery={searchQuery}
               onSearchChange={handleSearchChange}
             />
+            <div
+              className="h-1 bg-black transition-all duration-200"
+              style={{ width: `${scrollProgress}%` }}
+            />
           </Box>
-          <Container sx={{ py: 8, width: "90%" }}>
+          <Container
+            className="sticky top-20 -z-10"
+            sx={{ py: 8, width: "90%" }}
+          >
             {animeList.length > 0 ? (
               <Grid container spacing={4} justifyContent="center">
                 {animeList.map((anime) => (
