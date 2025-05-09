@@ -95,11 +95,13 @@ const Index = () => {
   useEffect(() => {
     if (qParam) {
       setSearchQuery(qParam);
+      setDebouncedSearchQuery(qParam);
     }
   }, [qParam]);
 
   const handlePageChange = (page: number) => {
-    navigate(`/page/${page}`);
+    const q = queryParam.get("q");
+    navigate(`/page/${page}${q ? `?q=${q}` : ""}`);
   };
 
   const handleSearchChange = (value: string) => {
