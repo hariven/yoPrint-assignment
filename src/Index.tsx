@@ -106,13 +106,13 @@ const Index = () => {
     setQueryParam({ q: value });
   };
 
-    useEffect(() => {
-        if (searchQuery) {
-        setQueryParam({ q: searchQuery });
-        } else {
-        setQueryParam({});
-        }
-    }, [searchQuery, setQueryParam]);
+  useEffect(() => {
+    if (searchQuery) {
+      setQueryParam({ q: searchQuery });
+    } else {
+      setQueryParam({});
+    }
+  }, [searchQuery, setQueryParam]);
   return (
     <div>
       {loading ? (
@@ -128,17 +128,14 @@ const Index = () => {
           <CircularProgress color="primary" />
         </Box>
       ) : (
-        <div className="h-screen">
-          <Box
-            //   sx={{ width: "100%", bgcolor: "green" }}
-            className=" "
-          >
+        <div className="h-screen mt-6">
+          <Box className="fixed top-0 right-0  left-0">
             <Header
               searchQuery={searchQuery}
               onSearchChange={handleSearchChange}
             />
           </Box>
-          <Container className="" sx={{ py: 4, width: "90%" }}>
+          <Container sx={{ py: 8, width: "90%" }}>
             {animeList.length > 0 ? (
               <Grid container spacing={4} justifyContent="center">
                 {animeList.map((anime) => (

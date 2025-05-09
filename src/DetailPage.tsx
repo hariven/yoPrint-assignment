@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Box,
-  Container,
-  Typography,
-  CircularProgress,
-  Chip,
-  Divider,
-} from "@mui/material";
+import { CircularProgress, Chip, Typography } from "@mui/material";
+import Header from "./_components/Header";
 
 interface AnimeDetail {
   mal_id: number;
@@ -22,6 +16,10 @@ interface AnimeDetail {
   synopsis: string;
   status: string;
   episodes: number;
+  score: number;
+  scored_by: number;
+  rank: number;
+  popularity: number;
 }
 
 const AnimeDetailPage = () => {
@@ -47,85 +45,93 @@ const AnimeDetailPage = () => {
 
   if (loading) {
     return (
-      <Box
-        sx={{
-          height: "80vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <div className="h-[80vh] flex justify-center items-center">
         <CircularProgress />
-      </Box>
+      </div>
     );
   }
 
   if (!animeDetail) {
     return (
-      <Box
-        sx={{
-          height: "80vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <div className="h-[80vh] flex justify-center items-center">
         <Typography variant="h6">Anime not found</Typography>
-      </Box>
+      </div>
     );
   }
 
   return (
     <>
-      <Container sx={{ py: 4 }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            gap: 4,
-            alignItems: "flex-start",
-          }}
-        >
+      <Header />
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="flex flex-col md:flex-row gap-8">
           {/* Anime Image */}
-          <Box
-            component="img"
+          <img
             src={animeDetail.images.jpg.image_url}
             alt={animeDetail.title}
-            sx={{
-              width: { xs: "100%", md: "300px" },
-              borderRadius: 2,
-              boxShadow: 3,
-            }}
+            className="max-w-full h-auto md:w-[300px] rounded-xl shadow-md"
           />
 
           {/* Anime Info */}
-          <Box sx={{ flex: 1 }}>
-            <Typography variant="h4" gutterBottom>
-              {animeDetail.title}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+          <div className="flex-1">
+            <h1 className="text-3xl font-bold mb-2">{animeDetail.title}</h1>
+            <p className="text-gray-600 mb-4">
               Status: {animeDetail.status} | Episodes: {animeDetail.episodes}
-            </Typography>
-            <Typography variant="body1" paragraph>
-              {animeDetail.synopsis}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
+            </p>
+            <p className="text-gray-800 mb-4">{animeDetail.synopsis}</p>
+            <p className="text-sm text-gray-500 mb-2">
               Rating: {animeDetail.rating}
-            </Typography>
+            </p>
+
+            {/* Stats Section */}
+            <div className="mt-6 flex flex-wrap gap-4 items-center">
+              {/* Rank */}
+              <Chip
+                label={`Rank: #${animeDetail.rank ?? "N/A"}`}
+                color="primary"
+                variant="outlined"
+                sx={{ fontWeight: "bold" }}
+              />
+
+              {/* Popularity */}
+              <Chip
+                label={`Popularity: #${animeDetail.popularity ?? "N/A"}`}
+                sx={{
+                  bgcolor: "#f3e5f5",
+                  color: "#6a1b9a",
+                  fontWeight: "bold",
+                }}
+              />
+
+              {/* Score */}
+              <div className="px-3 py-1 rounded-md bg-blue-100 text-blue-700 font-medium shadow-sm">
+                Score: {animeDetail.score ?? "N/A"}
+              </div>
+
+              {/* Scored By Users */}
+              <div className="px-3 py-1 rounded-md bg-orange-100 text-orange-700 font-medium shadow-sm text-sm">
+                Voted by: {animeDetail.scored_by?.toLocaleString() ?? "N/A"}{" "}
+                users
+              </div>
+            </div>
 
             {/* Genres */}
-            <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 1 }}>
+            <div className="mt-4 flex flex-wrap gap-2">
               {animeDetail.genres.map((genre) => (
-                <Chip key={genre.name} label={genre.name} />
+                <span
+                  key={genre.name}
+                  className="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded-full"
+                >
+                  {genre.name}
+                </span>
               ))}
-            </Box>
-          </Box>
-        </Box>
+            </div>
+          </div>
+        </div>
 
-        <Divider sx={{ my: 4 }} />
+        <div className="my-8 border-t border-gray-300" />
 
-        <Typography variant="h5">More Info Coming Soon...</Typography>
-      </Container>
+        <h2 className="text-2xl font-semibold">More Info Coming Soon...</h2>
+      </div>
     </>
   );
 };
