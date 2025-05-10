@@ -8,6 +8,7 @@ import {
   Box,
   Typography,
   Pagination,
+  Alert,
 } from "@mui/material";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 
@@ -34,6 +35,7 @@ const Index = () => {
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [queryParam, setQueryParam] = useSearchParams();
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -71,6 +73,7 @@ const Index = () => {
         return data;
       } catch (error) {
         console.error("Error fetching data:", error);
+        setError("Failed to fetch data");
         throw error;
       } finally {
         setLoading(false);
@@ -131,6 +134,7 @@ const Index = () => {
   }, []);
   return (
     <div>
+      {error && <Alert severity="error">{error}</Alert>}
       {loading ? (
         // Loading spinner centered vertically and horizontally
         <Box
@@ -156,7 +160,7 @@ const Index = () => {
             />
           </Box>
           <Container className="" sx={{ py: 8, width: "90%" }}>
-            {animeList.length > 0 ? (
+            {animeList.length > 0 && !loading ? (
               <Grid container spacing={4} justifyContent="center">
                 {animeList.map((anime) => (
                   <Grid
