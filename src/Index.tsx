@@ -144,7 +144,7 @@ const Index = () => {
         </Box>
       ) : (
         <div className="h-screen mt-6">
-          <Box className="fixed top-0 right-0  left-0">
+          <Box className="fixed top-0 right-0 left-0 z-30">
             <Header
               searchQuery={searchQuery}
               onSearchChange={handleSearchChange}
@@ -154,10 +154,7 @@ const Index = () => {
               style={{ width: `${scrollProgress}%` }}
             />
           </Box>
-          <Container
-            className="sticky top-20 -z-10"
-            sx={{ py: 8, width: "90%" }}
-          >
+          <Container className="" sx={{ py: 8, width: "90%" }}>
             {animeList.length > 0 ? (
               <Grid container spacing={4} justifyContent="center">
                 {animeList.map((anime) => (
