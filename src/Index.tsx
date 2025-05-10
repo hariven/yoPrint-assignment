@@ -50,8 +50,9 @@ const Index = () => {
     ): Promise<AnimeResponse> => {
       try {
         const search = debouncedSearchQuery ? `&q=${debouncedSearchQuery}` : "";
+        const apiUrl = import.meta.env.VITE_API_URL;
         const response = await fetch(
-          `https://api.jikan.moe/v4/anime?page=${page}&limit=${limit}${search}` // Updated URL to include search query
+          `${apiUrl}?page=${page}&limit=${limit}${search}` // Updated URL to include search query
         );
         const data = await response.json();
         console.log("API Response:", data?.data);

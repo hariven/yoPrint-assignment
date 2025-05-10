@@ -30,7 +30,8 @@ const AnimeDetailPage = () => {
   useEffect(() => {
     const fetchAnimeDetail = async () => {
       try {
-        const response = await fetch(`https://api.jikan.moe/v4/anime/${id}`);
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}/${id}`);
         const data = await response.json();
         setAnimeDetail(data.data);
       } catch (error) {
