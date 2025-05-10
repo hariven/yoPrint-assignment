@@ -23,7 +23,7 @@ interface AnimeDetail {
 }
 
 const AnimeDetailPage = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id, page } = useParams<{ id: string; page: string }>();
   const [loading, setLoading] = useState(true);
   const [animeDetail, setAnimeDetail] = useState<AnimeDetail | null>(null);
 
@@ -40,8 +40,8 @@ const AnimeDetailPage = () => {
       }
     };
 
-    if (id) fetchAnimeDetail();
-  }, [id]);
+    if (id && page) fetchAnimeDetail();
+  }, [id, page]);
 
   if (loading) {
     return (

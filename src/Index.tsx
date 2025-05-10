@@ -167,6 +167,7 @@ const Index = () => {
                       id={anime.mal_id.toString()}
                       title={anime.title}
                       imageUrl={anime.images.jpg.image_url}
+                      currentPage={currentPage.toString()}
                     />
                   </Grid>
                 ))}
