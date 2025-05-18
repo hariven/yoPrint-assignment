@@ -80,28 +80,20 @@ const Index = () => {
       }
     };
 
-    if (debouncedSearchQuery) {
-      fetchData();
-    } else {
-      fetchData();
-    }
+    fetchData();
   }, [currentPage, debouncedSearchQuery]);
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearchQuery(searchQuery);
-    }, 250);
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [searchQuery]);
-
-  useEffect(() => {
-    if (qParam) {
+    if (qParam !== null) {
       setSearchQuery(qParam);
-      setDebouncedSearchQuery(qParam);
+      const handler = setTimeout(() => {
+        setDebouncedSearchQuery(qParam);
+      }, 250);
+      return () => clearTimeout(handler);
+    } else {
+      setQueryParam({});
     }
-  }, [qParam]);
+  }, [qParam, setQueryParam]);
 
   const handlePageChange = (page: number) => {
     const q = queryParam.get("q");
@@ -109,17 +101,17 @@ const Index = () => {
   };
 
   const handleSearchChange = (value: string) => {
-    setSearchQuery(value);
+    // setSearchQuery(value);
     setQueryParam({ q: value });
   };
 
-  useEffect(() => {
-    if (searchQuery) {
-      setQueryParam({ q: searchQuery });
-    } else {
-      setQueryParam({});
-    }
-  }, [searchQuery, setQueryParam]);
+  // useEffect(() => {
+  //   if (searchQuery) {
+  //     setQueryParam({ q: searchQuery });
+  //   } else {
+  //     setQueryParam({});
+  //   }
+  // }, [searchQuery, setQueryParam]);
 
   useEffect(() => {
     const handleScroll = () => {
