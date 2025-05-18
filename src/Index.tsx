@@ -45,6 +45,7 @@ const Index = () => {
 
   const qParam = queryParam.get("q");
 
+  // Debounce the search query to avoid excessive API calls
   useEffect(() => {
     const fetchData = async (
       page = currentPage,
@@ -83,6 +84,7 @@ const Index = () => {
     fetchData();
   }, [currentPage, debouncedSearchQuery]);
 
+  // watch the search qparam and set the search query
   useEffect(() => {
     if (qParam !== null) {
       setSearchQuery(qParam);
@@ -128,7 +130,7 @@ const Index = () => {
     <div>
       {error && <Alert severity="error">{error}</Alert>}
       {loading ? (
-        // Loading spinner centered vertically and horizontally
+        // Loading spinner
         <Box
           sx={{
             height: "80vh",
